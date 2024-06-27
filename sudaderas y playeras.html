@@ -396,7 +396,7 @@
                        <i class="fa fa-shopping-cart cart-icon" onclick="toggleCart(event)" style="font-size: 30px;"></i>
                         <div class="cart-dropdown">
                             <ul id="cart-items">
-                                <!-- Items del carrito -->
+   
                             </ul>
                             <div class="total-price" id="total-price">Total: $0.00</div>
                             <button class="checkout-button" id="checkout-button" onclick="checkout()">Checkout</button>
@@ -510,7 +510,7 @@
       	  <h3>Resumen de Compra</h3>
        	 <div class="cart-summary">
             <ul id="checkout-cart-items">
-                <!-- Items del carrito para el popup de checkout -->
+
             </ul>
             <div class="total-price" id="checkout-total-price">Total: $0.00</div>
         </div>
@@ -564,19 +564,27 @@ function addToCart(productName, productPrice, productImage, quantityId) {
     const quantityElement = document.getElementById(quantityId);
     const quantity = parseInt(quantityElement.value);
     
+
+    let discountedPrice = productPrice;
+    if (quantity >= 50) {
+        discountedPrice *= 0.5;
+    } else if (quantity >= 25) {
+        discountedPrice *= 0.75;
+    }
+
     const cartItems = document.getElementById('cart-items');
     const newItem = document.createElement('li');
     newItem.className = 'cart-item';
     newItem.innerHTML = `
         <img src="${productImage}" alt="${productName}">
         <span>${productName}</span>
-        <span>${quantity} x $${productPrice.toFixed(2)}</span>
+        <span>${quantity} x $${discountedPrice.toFixed(2)}</span>
     `;
     cartItems.appendChild(newItem);
 
     const totalPriceElement = document.getElementById('total-price');
     const currentTotal = parseFloat(totalPriceElement.textContent.replace('Total: $', ''));
-    const newTotal = currentTotal + (productPrice * quantity);
+    const newTotal = currentTotal + (discountedPrice * quantity);
     totalPriceElement.textContent = `Total: $${newTotal.toFixed(2)}`;
 
     const checkoutButton = document.getElementById('checkout-button');
@@ -584,6 +592,7 @@ function addToCart(productName, productPrice, productImage, quantityId) {
 
     showPopup();
 }
+
 
         function showPopup() {
             const popup = document.getElementById('popup');
@@ -599,10 +608,10 @@ function checkout() {
     const totalPriceElement = document.getElementById('total-price');
     const checkoutTotalPriceElement = document.getElementById('checkout-total-price');
 
-    // Vaciar la lista de productos del popup de checkout
+
     checkoutCartItems.innerHTML = '';
 
-    // Copiar los elementos del carrito al popup de checkout
+
     const cartItems = document.querySelectorAll('.cart-item');
     cartItems.forEach(item => {
         const clonedItem = item.cloneNode(true);
@@ -613,10 +622,10 @@ function checkout() {
         checkoutCartItems.appendChild(clonedItem);
     });
 
-    // Actualizar el precio total en el popup de checkout
+
     checkoutTotalPriceElement.textContent = totalPriceElement.textContent;
 
-    // Mostrar el popup de checkout
+
     checkoutPopup.style.display = 'flex';
 }
 
@@ -626,9 +635,9 @@ function checkout() {
         }
 
  function processPayment() {
-        alert('Procesando el pago...'); // Puedes ajustar este mensaje según sea necesario
-        closeCheckoutPopup(); // Cierra el popup de checkout si es necesario
-        showThankYouPopup(); // Muestra el popup de agradecimiento
+        alert('Procesando el pago...'); 
+        closeCheckoutPopup();
+        showThankYouPopup(); 
     }
 
     function showThankYouPopup() {

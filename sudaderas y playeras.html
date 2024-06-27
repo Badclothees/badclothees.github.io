@@ -255,6 +255,118 @@
             margin-top: 10px;
         }
 
+        .payment-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            z-index: 1001;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .payment-container h3 {
+            margin-top: 0;
+        }
+
+        .payment-container input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .payment-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .payment-container button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+	.checkout-popup {
+  	  display: none;
+  	  position: fixed;
+  	  top: 0;
+   	 left: 0;
+   	 width: 100%;
+  	  height: 100%;
+  	  background-color: rgba(0, 0, 0, 0.5);
+  	  justify-content: center;
+  	  align-items: center;
+  	  z-index: 1002;
+	}
+
+	.checkout-content {
+   	 background-color: white;
+   	 border-radius: 10px;
+   	 padding: 20px;
+   	 width: 80%;
+   	 max-width: 600px;
+   	 max-height: 80%;
+   	 overflow-y: auto;
+	}
+
+	.checkout-popup-image {
+  	  max-width: 60px;
+   	  height: auto;
+	}
+
+	.checkout-content h3 {
+  	  margin-top: 0;
+	}
+
+	.cart-summary {
+  	  margin-bottom: 20px;
+	}
+
+	#checkout-cart-items {
+    	list-style-type: none;
+    	padding: 0;
+   	 margin: 0 0 20px 0;
+	}
+
+	#checkout-cart-items li {
+   	display: flex;
+    	justify-content: space-between;
+    	margin-bottom: 10px;
+	}
+
+        .thank-you-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            z-index: 1002;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .thank-you-popup button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         .fade {
             opacity: 0;
             transition: opacity 1s;
@@ -288,6 +400,7 @@
                             </ul>
                             <div class="total-price" id="total-price">Total: $0.00</div>
                             <button class="checkout-button" id="checkout-button" onclick="checkout()">Checkout</button>
+
                         </div>
                     </li>
                 </ul>
@@ -310,18 +423,22 @@
         </div>
     </header>
     <main>
+
         <section id="products" class="product-container">
             <div class="product-box">
-                <img src="hoddiecorazon.png" alt="suderacorazon" class="product-image fade" id="product-image-1">
-                <div class="product-info">
-                    <h3>Sudadera logo corazón rojo</h3>
-                    <p>Composición: 80% algodón, 20% poliéster</p>
-                    <p>Textura: Suave y cómoda</p>
-                    <p>Color: Negra con logo y estampado</p>
-                    <p class="price">$40.00</p>
-                    <a class="add-to-cart" onclick="addToCart('Sudadera Mujer', 40.00, 'hoddiecorazon.png')">Añadir al carrito</a>
-                </div>
-            </div>
+	    <img src="hoddiecorazon.png" alt="suderacorazon" class="product-image fade" id="product-image-1">
+	    <div class="product-info">
+	      <h3>Sudadera logo corazón rojo</h3>
+	      <p>Composición: 80% algodón, 20% poliéster</p>
+	      <p>Textura: Suave y cómoda</p>
+	      <p>Color: Negra con logo y estampado</p>
+ 	      <p class="price">$40.00</p>
+  	     <label for="quantity-1">Cantidad:</label>
+ 	     <input type="number" id="quantity-1" name="quantity" min="1" value="1">
+ 	     <a class="add-to-cart" onclick="addToCart('Sudadera corazón rojo', 40.00, 'hoddiecorazon.png', 'quantity-1')">Añadir al carrito</a>
+ 	   </div>
+	</div>
+
             <div class="product-box">
                 <img src="sudaderacorazon.png" alt="sudaderaLove" class="product-image fade" id="product-image-2">
                 <div class="product-info">
@@ -330,7 +447,9 @@
                     <p>Textura: Suave y cómoda</p>
                     <p>Color: Negra con logo y estampado</p>
                     <p class="price">$42.00</p>
-                    <a class="add-to-cart" onclick="addToCart('Sudadera Amor', 42.00, 'hoddielove.png')">Añadir al carrito</a>
+		    <label for="quantity-1">Cantidad:</label>
+                    <input type="number" id="quantity-2" name="quantity" min="1" value="1">
+                    <a class="add-to-cart" onclick="addToCart('Sudadera logo corazon', 42.00, 'sudaderacorazon.png', 'quantity-2')">Añadir al carrito</a>
                 </div>
             </div>
             <div class="product-box">
@@ -341,7 +460,9 @@
                     <p>Textura: Suave y cómoda</p>
                     <p>Color: Negra con logo y estampado</p>
                     <p class="price">$45.00</p>
-                    <a class="add-to-cart" onclick="addToCart('Sudadera Oso', 45.00, 'hoddieOSO.png')">Añadir al carrito</a>
+		    <label for="quantity-1">Cantidad:</label>
+                    <input type="number" id="quantity-3" name="quantity" min="1" value="1">
+                    <a class="add-to-cart" onclick="addToCart('Sudadera logo empresa', 45.00, 'hoddielogo.png', 'quantity-3')">Añadir al carrito</a>
                 </div>
             </div>
             <div class="product-box">
@@ -352,7 +473,9 @@
                     <p>Textura: Suave y fresca</p>
                     <p>Color: Negra con logo</p>
                     <p class="price">$25.00</p>
-                    <a class="add-to-cart" onclick="addToCart('Playera Morada', 25.00, 'playeramorada.png')">Añadir al carrito</a>
+		    <label for="quantity-1">Cantidad:</label>
+                    <input type="number" id="quantity-4" name="quantity" min="1" value="1">
+                    <a class="add-to-cart" onclick="addToCart('Sudadera sin gorro', 25.00, 'sudaderalogo.png', 'quantity-4')">Añadir al carrito</a>
                 </div>
             </div>
             <div class="product-box">
@@ -363,7 +486,9 @@
                     <p>Textura: Suave y cómoda</p>
                     <p>Color: Negro clásico con logo blanco</p>
                     <p class="price">$20.00</p>
-                    <a class="add-to-cart" onclick="addToCart('Playera Negra', 20.00, 'playeranegra.png')">Añadir al carrito</a>
+		    <label for="quantity-1">Cantidad:</label>
+                    <input type="number" id="quantity-5" name="quantity" min="1" value="1">
+                    <a class="add-to-cart" onclick="addToCart('PLayera Negra con logo', 20.00, 'playeraoversizecorazon.png', 'quantity-5')">Añadir al carrito</a>
                 </div>
             </div>
             <div class="product-box">
@@ -374,9 +499,37 @@
                     <p>Textura: Suave y cómoda</p>
                     <p>Color: Negro con logo blanco</p>
                     <p class="price">$22.00</p>
-                    <a class="add-to-cart" onclick="addToCart('Playera Rosa', 22.00, 'playerarosa.png')">Añadir al carrito</a>
+		    <label for="quantity-1">Cantidad:</label>
+                    <input type="number" id="quantity-6" name="quantity" min="1" value="1">
+                    <a class="add-to-cart" onclick="addToCart('Playera negra corazon', 22.00, 'playerahombrecorazon.png', 'quantity-6')">Añadir al carrito</a>
                 </div>
             </div>
+
+	<div class="checkout-popup" id="checkout-popup">
+   	 <div class="checkout-content">
+      	  <h3>Resumen de Compra</h3>
+       	 <div class="cart-summary">
+            <ul id="checkout-cart-items">
+                <!-- Items del carrito para el popup de checkout -->
+            </ul>
+            <div class="total-price" id="checkout-total-price">Total: $0.00</div>
+        </div>
+
+       	 <h3>Métodos de Pago</h3>
+       	   <label><input type="radio" name="payment-method" value="tarjeta" checked> Tarjeta de Crédito/Débito</label>
+       	   <label><input type="radio" name="payment-method" value="paypal"> PayPal</label>
+       	   <label><input type="radio" name="payment-method" value="transferencia"> Transferencia Bancaria</label>
+       	   <button onclick="processPayment()">Pagar</button>
+       	   <button onclick="closeCheckoutPopup()">Cancelar</button>
+  	  </div>
+	</div>
+
+ 	<div id="thank-you-popup" class="thank-you-popup">
+    	   <h3>¡Gracias por su compra!</h3>
+       	   <p>Gracias por elegirnos. Sus productos han sido procesados y serán enviados pronto.</p>
+           <button onclick="closeThankYouPopup()">Cerrar</button>
+   	 </div>
+
         </section>
     </main>
     <div id="popup" class="popup">
@@ -407,27 +560,30 @@
             cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
         }
 
-        function addToCart(productName, productPrice, productImage) {
-            const cartItems = document.getElementById('cart-items');
-            const newItem = document.createElement('li');
-            newItem.className = 'cart-item';
-            newItem.innerHTML = `
-                <img src="${productImage}" alt="${productName}">
-                <span>${productName}</span>
-                <span>$${productPrice.toFixed(2)}</span>
-            `;
-            cartItems.appendChild(newItem);
+function addToCart(productName, productPrice, productImage, quantityId) {
+    const quantityElement = document.getElementById(quantityId);
+    const quantity = parseInt(quantityElement.value);
+    
+    const cartItems = document.getElementById('cart-items');
+    const newItem = document.createElement('li');
+    newItem.className = 'cart-item';
+    newItem.innerHTML = `
+        <img src="${productImage}" alt="${productName}">
+        <span>${productName}</span>
+        <span>${quantity} x $${productPrice.toFixed(2)}</span>
+    `;
+    cartItems.appendChild(newItem);
 
-            const totalPriceElement = document.getElementById('total-price');
-            const currentTotal = parseFloat(totalPriceElement.textContent.replace('Total: $', ''));
-            const newTotal = currentTotal + productPrice;
-            totalPriceElement.textContent = `Total: $${newTotal.toFixed(2)}`;
+    const totalPriceElement = document.getElementById('total-price');
+    const currentTotal = parseFloat(totalPriceElement.textContent.replace('Total: $', ''));
+    const newTotal = currentTotal + (productPrice * quantity);
+    totalPriceElement.textContent = `Total: $${newTotal.toFixed(2)}`;
 
-            const checkoutButton = document.getElementById('checkout-button');
-            checkoutButton.style.display = 'block';
+    const checkoutButton = document.getElementById('checkout-button');
+    checkoutButton.style.display = 'block';
 
-            showPopup();
-        }
+    showPopup();
+}
 
         function showPopup() {
             const popup = document.getElementById('popup');
@@ -437,9 +593,53 @@
             }, 3000);
         }
 
-        function checkout() {
-            alert('Procediendo al checkout');
+function checkout() {
+    const checkoutPopup = document.getElementById('checkout-popup');
+    const checkoutCartItems = document.getElementById('checkout-cart-items');
+    const totalPriceElement = document.getElementById('total-price');
+    const checkoutTotalPriceElement = document.getElementById('checkout-total-price');
+
+    // Vaciar la lista de productos del popup de checkout
+    checkoutCartItems.innerHTML = '';
+
+    // Copiar los elementos del carrito al popup de checkout
+    const cartItems = document.querySelectorAll('.cart-item');
+    cartItems.forEach(item => {
+        const clonedItem = item.cloneNode(true);
+        const imgElement = clonedItem.querySelector('img');
+        if (imgElement) {
+            imgElement.classList.add('checkout-popup-image');
         }
+        checkoutCartItems.appendChild(clonedItem);
+    });
+
+    // Actualizar el precio total en el popup de checkout
+    checkoutTotalPriceElement.textContent = totalPriceElement.textContent;
+
+    // Mostrar el popup de checkout
+    checkoutPopup.style.display = 'flex';
+}
+
+        function closeCheckoutPopup() {
+            const checkoutPopup = document.getElementById('checkout-popup');
+            checkoutPopup.style.display = 'none';
+        }
+
+ function processPayment() {
+        alert('Procesando el pago...'); // Puedes ajustar este mensaje según sea necesario
+        closeCheckoutPopup(); // Cierra el popup de checkout si es necesario
+        showThankYouPopup(); // Muestra el popup de agradecimiento
+    }
+
+    function showThankYouPopup() {
+        const thankYouPopup = document.getElementById('thank-you-popup');
+        thankYouPopup.style.display = 'block';
+    }
+
+    function closeThankYouPopup() {
+        const thankYouPopup = document.getElementById('thank-you-popup');
+        thankYouPopup.style.display = 'none';
+    }
 
         document.addEventListener('DOMContentLoaded', () => {
             const images = [
@@ -472,3 +672,4 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </body>
 </html>
+

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda - Términos y Políticas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0 120px;
+            padding: 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: white;
+            padding: 10px;
+            border: none;
+            width: 99%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            flex-grow: 1;
+            text-align: center;
+            margin-left: 120px; 
+        }
+
+        .logo img {
+            max-height: 70px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            position: relative;
+            margin-right: 20px;
+            border: 0px solid #ccc;
+            border-radius: 0px;
+        }
+
+        nav ul li a {
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            font-size: 18px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #e6f7ff;
+        }
+
+        nav ul li .dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            list-style-type: none;
+            padding: 10px;
+            border: 0px solid #ccc;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        nav ul li:hover .dropdown {
+            display: block;
+        }
+
+        nav ul li .dropdown li {
+            margin-bottom: 10px;
+        }
+
+        nav ul li .dropdown li a {
+            font-size: 18px;
+        }
+
+        nav ul li .dropdown li:last-child {
+            margin-bottom: 0;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .search-container input {
+            padding: 5px;
+            display: none;
+            position: absolute;
+            right: 0;
+        }
+
+        .search-container button {
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .search-container button .fa-search {
+            font-size: 20px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .popup p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .cart-container {
+            position: relative;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .cart-icon {
+            cursor: pointer;
+            font-size: 24px;
+            border: none;
+        }
+
+        .cart-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            z-index: 1000;
+            width: 200px;
+        }
+
+        .cart-dropdown ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cart-dropdown ul li {
+            margin-bottom: 10px;
+        }
+
+        .cart-dropdown ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .cart-dropdown .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-dropdown .total-price {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .cart-dropdown .checkout-button {
+            display: none; 
+            margin-top: 10px;
+        }
+
+        .terms-container {
+            padding: 20px;
+            margin-top: 80px;
+        }
+
+        .terms-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .terms-container p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body onclick="closeSearch(event)">
+    <header>
+        <div class="header-container">
+            <nav>
+                <ul>
+                    <li><a href="#">Mujer</a>
+                        <ul class="dropdown">
+                            <li><a href="sudaderas y playeras.html">Sudaderas y Playeras</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Hombre</a>
+                        <ul class="dropdown">
+                            <li><a href="sudaderas y playeras.html">Sudaderas y Playeras</a></li>
+                        </ul>
+                    </li>
+                    <li class="cart-container">
+                        <i class="fa fa-shopping-cart cart-icon" onclick="toggleCart(event)"></i>
+                        <div class="cart-dropdown">
+                            <ul id="cart-items">
+                                <!-- Items del carrito -->
+                            </ul>
+                            <div class="total-price" id="total-price">Total: $0.00</div>
+                            <button class="checkout-button" id="checkout-button" onclick="checkout()">Checkout</button>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Logo de la tienda">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Políticas de la Empresa</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </nav>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Buscar...">
+                <button onclick="toggleSearch(event)"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+        <div class="scrolling-text-container">
+            <div class="scrolling-text">
+                <span>¡Siente la comodidad y el estilo con nuestras sudaderas!, ¿Buscas una sudadera perfecta para cualquier ocasión? ¡No busques más! En nuestra tienda online encontrarás una amplia variedad de sudaderas para hombres y mujeres con diseños únicos y de alta calidad.</span>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="popup-cookies" class="popup">
+            <p>Este sitio usa cookies para mejorar la experiencia del usuario.</p>
+            <button onclick="acceptCookies()">Aceptar</button>
+        </div>
+
+    <section class="terms-container">
+        <h1>Políticas de la Empresa</h1>
+        <h2>Introducción</h2>
+        <p>Estas políticas establecen las normas y procedimientos para el uso de sudaderas y playeras dentro de la empresa. El objetivo es mantener un ambiente de trabajo profesional y apropiado, mientras se permite a los empleados expresar su individualidad.</p>
+
+        <h2>Alcance</h2>
+        <p>Estas políticas aplican a todos los empleados de la empresa, independientemente de su cargo o ubicación.</p>
+
+        <h2>Políticas generales</h2>
+        <h3>Atuendo apropiado</h3>
+        <p>Las sudaderas y playeras deben estar limpias, sin agujeros ni rasgaduras, y no deben tener mensajes o imágenes ofensivas, discriminatorias o que promuevan la violencia.</p>
+
+        <h3>Logotipos de la empresa</h3>
+        <p>Solo se permiten sudaderas y playeras con el logotipo oficial de la empresa. Los logotipos no deben estar alterados ni modificados de ninguna manera.</p>
+
+        <h3>Eventos especiales</h3>
+        <p>La empresa puede permitir el uso de sudaderas y playeras especiales para eventos específicos, como días festivos o actividades de equipo. Estas políticas se comunicarán con anticipación.</p>
+
+        <h3>Venta de sudaderas y playeras</h3>
+        <p>La empresa puede vender sudaderas y playeras con el logotipo oficial. Las políticas de venta se comunicarán por separado.</p>
+
+        <h2>Responsabilidades</h2>
+        <h3>Empleados</h3>
+        <p>Los empleados son responsables de seguir estas políticas y de usar sudaderas y playeras de manera apropiada.</p>
+
+        <h3>Supervisores</h3>
+        <p>Los supervisores son responsables de garantizar que sus empleados cumplan con estas políticas.</p>
+
+        <h3>Recursos Humanos</h3>
+        <p>El departamento de Recursos Humanos es responsable de interpretar y aplicar estas políticas, y de investigar cualquier violación de las mismas.</p>
+
+        <h2>Procedimiento de quejas</h2>
+        <p>Si un empleado cree que otro empleado está violando estas políticas, puede presentar una queja ante su supervisor o ante el departamento de Recursos Humanos. Todas las quejas se investigarán de manera justa y confidencial.</p>
+
+        <h2>Consecuencias del incumplimiento</h2>
+        <p>El incumplimiento de estas políticas puede resultar en medidas disciplinarias, que pueden incluir una reprimenda verbal, una reprimenda por escrito, suspensión o despido.</p>
+
+        <h2>Modificaciones</h2>
+        <p>Estas políticas pueden ser modificadas en cualquier momento por la empresa. Las modificaciones se comunicarán a los empleados por correo electrónico o mediante publicación en el intranet de la empresa.</p>
+
+        <h2>Conclusión</h2>
+        <p>Estas políticas están diseñadas para crear un ambiente de trabajo profesional y agradable para todos los empleados. Se espera que todos los empleados cooperen para seguir estas políticas.</p>
+
+        <h2>Políticas adicionales</h2>
+        <p>Además de las políticas generales anteriores, la empresa puede tener políticas adicionales específicas para el uso de sudaderas y playeras en áreas de trabajo específicas o para eventos específicos. Estas políticas adicionales se comunicarán a los empleados afectados.</p>
+
+        <h3>Ejemplo de políticas adicionales</h3>
+        <p>Áreas de trabajo: En algunas áreas de trabajo, como las áreas de producción, puede haber restricciones adicionales sobre el tipo de sudaderas y playeras que se pueden usar. Por ejemplo, se puede prohibir el uso de sudaderas con capucha o con cordones.</p>
+
+        <p>Eventos: En algunos eventos, como reuniones con clientes, puede haber un código de vestimenta más formal. En estos casos, no se permiten sudaderas ni playeras.</p>
+        
+        <h1>Políticas de Cookies</h1>
+        <h2>Introducción</h2>
+        <p>Las cookies son pequeños archivos de texto que un sitio web almacena en el navegador de un usuario. Se utilizan para almacenar información sobre la visita del usuario al sitio web, como sus preferencias de idioma, información de inicio de sesión y artículos del carrito de compras. Las cookies pueden mejorar la experiencia del usuario al permitir que el sitio web recuerde las acciones y preferencias del usuario, de modo que no tenga que volver a ingresarlas cada vez que regresa al sitio web o navega de una página a otra.</p>
+
+        <h2>Tipos de cookies</h2>
+        <p>Existen dos tipos principales de cookies:</p>
+        <p><strong>Cookies de sesión:</strong> Estas cookies son temporales y se eliminan cuando el usuario cierra su navegador. Se utilizan para almacenar información que solo es necesaria durante la sesión actual, como los artículos del carrito de compras.</p>
+        <p><strong>Cookies persistentes:</strong> Estas cookies permanecen en el dispositivo del usuario hasta que caducan o se eliminan manualmente. Se utilizan para almacenar información que se puede utilizar en varias visitas al sitio web, como las preferencias de idioma o la información de inicio de sesión.</p>
+
+        <h2>Propósito de las cookies</h2>
+        <p>Las empresas de sudaderas y playeras pueden usar cookies para los siguientes propósitos:</p>
+        <p><strong>Mejorar la experiencia del usuario:</strong> Las cookies pueden recordar las preferencias del usuario, como el tamaño de fuente y el idioma preferido, lo que puede hacer que la navegación por el sitio web sea más fácil y agradable.</p>
+        <p><strong>Rastreo de la actividad del usuario:</strong> Las cookies se pueden utilizar para rastrear la actividad del usuario en el sitio web, como las páginas que visita y los productos que ve. Esta información se puede utilizar para mejorar el sitio web y ofrecer recomendaciones de productos más relevantes.</p>
+        <p><strong>Publicidad dirigida:</strong> Las cookies se pueden utilizar para mostrar anuncios dirigidos al usuario en función de su historial de navegación y actividad.</p>
+        <p><strong>Análisis web:</strong> Las cookies se pueden utilizar para recopilar datos sobre cómo los usuarios interactúan con el sitio web. Esta información se puede utilizar para mejorar el rendimiento del sitio web y comprender mejor las necesidades de los usuarios.</p>
+
+        <h2>Consentimiento del usuario</h2>
+        <p>En la mayoría de los países, las empresas de sudaderas y playeras deben obtener el consentimiento del usuario antes de almacenar cookies en su dispositivo. El consentimiento se puede obtener mediante un banner emergente que informa al usuario sobre el uso de cookies y le da la opción de aceptar o rechazar las cookies.</p>
+
+        <h2>Opciones del usuario</h2>
+        <p>Los usuarios pueden controlar las cookies que se almacenan en sus dispositivos mediante la configuración de su navegador. La mayoría de los navegadores permiten a los usuarios bloquear todas las cookies, bloquear solo las cookies de terceros o permitir cookies solo de sitios web específicos.</p>
+
+        <h2>Información adicional</h2>
+        <p>Para obtener más información sobre las cookies, puede visitar los siguientes recursos:</p>
+        <ul>
+            <li>Wikipedia: Cookies HTTP</li>
+            <li>IAB México: Guía de cookies</li>
+            <li>Comisión Nacional de Protección de Datos Personales (INAI): Cookies</li>
+        </ul>
+        <p>Es importante que las empresas de sudaderas y playeras tengan una política de cookies clara y transparente que explique cómo se utilizan las cookies y cómo pueden controlar los usuarios las cookies.</p>
+        <p>Aquí hay algunos elementos que una política de cookies debe incluir:</p>
+        <ul>
+            <li>Una descripción de los tipos de cookies que se utilizan.</li>
+            <li>El propósito de las cookies.</li>
+            <li>Cómo se obtiene el consentimiento del usuario.</li>
+            <li>Las opciones del usuario para controlar las cookies.</li>
+            <li>Cómo pueden contactar los usuarios con la empresa si tienen preguntas sobre las cookies.</li>
+        </ul>
+        <p>Al seguir estas pautas, las empresas de sudaderas y playeras pueden asegurarse de cumplir con las leyes y regulaciones de privacidad de datos y proteger la privacidad de sus usuarios.</p>
+    </section>
+
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!localStorage.getItem("cookiesAccepted")) {
+                document.getElementById("popup-cookies").style.display = "block";
+            }
+        });
+
+        function acceptCookies() {
+            localStorage.setItem("cookiesAccepted", true);
+            document.getElementById("popup-cookies").style.display = "none";
+        }
+
+        function toggleSearch(event) {
+            event.stopPropagation();
+            const searchInput = document.getElementById("search");
+            if (searchInput.style.display === "none" || searchInput.style.display === "") {
+                searchInput.style.display = "block";
+                searchInput.focus();
+            } else {
+                searchInput.style.display = "none";
+            }
+        }
+
+        function closeSearch(event) {
+            if (!event.target.closest('.search-container')) {
+                document.getElementById("search").style.display = "none";
+            }
+        }
+
+        function searchProduct() {
+            const query = document.getElementById("search").value.toLowerCase();
+            const products = [
+                { name: "sudaderas mujer", url: "#" },
+                { name: "playeras mujer", url: "#" },
+                { name: "sudaderas hombre", url: "#" },
+                { name: "playeras hombre", url: "#" }
+            ];
+            const result = products.find(product => product.name.toLowerCase().includes(query));
+            if (result) {
+                window.location.href = result.url;
+            } else {
+                alert("Producto no encontrado");
+            }
+        }
+
+        function toggleCart(event) {
+            event.stopPropagation();
+            const cartDropdown = document.querySelector('.cart-dropdown');
+            if (cartDropdown.style.display === "none" || cartDropdown.style.display === "") {
+                cartDropdown.style.display = "block";
+            } else {
+                cartDropdown.style.display = "none";
+            }
+        }
+
+        function addToCart(productName, price) {
+            const cartItems = document.getElementById("cart-items");
+            const newItem = document.createElement("li");
+            newItem.textContent = `${productName} - $${price.toFixed(2)}`;
+            cartItems.appendChild(newItem);
+            updateTotalPrice(price);
+            toggleCart({ stopPropagation: () => {} });
+        }
+
+        function updateTotalPrice(price) {
+            const totalPriceElement = document.getElementById("total-price");
+            let currentTotal = parseFloat(totalPriceElement.textContent.replace("Total: $", ""));
+            currentTotal += price;
+            totalPriceElement.textContent = `Total: $${currentTotal.toFixed(2)}`;
+
+            const checkoutButton = document.getElementById("checkout-button");
+            if (currentTotal > 0) {
+                checkoutButton.style.display = "block";
+            }
+        }
+
+        function checkout() {
+            alert("Procediendo al checkout");
+        }
+
+        document.addEventListener('click', function(event) {
+            const cartDropdown = document.querySelector('.cart-dropdown');
+            if (!event.target.closest('.cart-container')) {
+                cartDropdown.style.display = 'none';
+            }
+        });
+    </script>
+    <!-- Incluye Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+</html>

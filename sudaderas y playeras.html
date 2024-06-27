@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudaderas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            padding: 0 10px;
+            background-color: #f0f0f0;
+            padding-top: 100px; 
+            max-width: 1500px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: white;
+            padding: 10px;
+            border: none;
+            width: 99%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            flex-grow: 1;
+            text-align: center;
+            margin-left: 100px;
+        }
+
+        .logo img {
+            max-height: 70px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            font-size: 18px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #e6f7ff;
+        }
+
+        nav ul li .dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            list-style-type: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        nav ul li:hover .dropdown {
+            display: block;
+        }
+
+        nav ul li .dropdown li {
+            margin-bottom: 10px;
+        }
+
+        nav ul li .dropdown li a {
+            font-size: 18px;
+        }
+
+        nav ul li .dropdown li:last-child {
+            margin-bottom: 0;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .search-container input {
+            padding: 5px;
+            display: none;
+            position: absolute;
+            right: 0;
+        }
+
+        .search-container button {
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .search-container button .fa-search {
+            font-size: 20px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .popup p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 90px 40px; 
+            margin: 20px;
+        }
+
+        .product-box {
+            background-color: white;
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            height: 120%;
+            width: 90%;
+            margin-left: 20px;
+            transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+        }
+
+        .product-box:hover {
+            transform: scale(1.05);
+        }
+
+        .product-box img {
+            width: 250px;
+            height: 300px;
+            border-radius: 10px;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .product-info h3 {
+            margin: 10px 0 5px 0;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+        }
+
+        .price {
+            font-weight: bold;
+        }
+
+        .add-to-cart {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cart-container {
+            position: relative;
+            margin-left: 10px;
+            margin-top: 5px;
+
+        }
+
+	 .cart-icon {
+            cursor: pointer;
+    	    font-size: 50px;
+    	    border: none;	
+	}
+
+        .cart-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            z-index: 1000;
+            width: 200px;
+	    max-height: 300px;
+	    overflow-y: auto;
+	    transition: height 0.3s ease;
+        }
+
+        .cart-dropdown ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cart-dropdown ul li {
+            margin-bottom: 10px;
+        }
+
+        .cart-dropdown ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .cart-dropdown .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-dropdown .cart-item img {
+            max-width: 60px;
+            margin-right: 10px;
+        }
+
+        .cart-dropdown .total-price {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .cart-dropdown .checkout-button {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .fade {
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .fade-in {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body onclick="closeSearch(event)">
+    <header>
+        <div class="header-container">
+            <nav>
+                <ul>
+                    <li><a href="#">Mujer</a>
+                        <ul class="dropdown">
+                            <li><a href="sudaderas y playeras.html">Sudaderas y Playeras</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Hombre</a>
+                        <ul class="dropdown">
+                            <li><a href="sudaderas y playeras.html">Sudaderas y Playeras</a></li>
+                        </ul>
+                    </li>
+                    <li class="cart-container">
+                       <i class="fa fa-shopping-cart cart-icon" onclick="toggleCart(event)" style="font-size: 30px;"></i>
+                        <div class="cart-dropdown">
+                            <ul id="cart-items">
+                                <!-- Items del carrito -->
+                            </ul>
+                            <div class="total-price" id="total-price">Total: $0.00</div>
+                            <button class="checkout-button" id="checkout-button" onclick="checkout()">Checkout</button>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logo">
+                <a href="index.html">
+                <img src="logo.png" alt="Logo de la tienda">
+	     </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="politicas de la empresa y cookies.html">Políticas de la Empresa</a></li>
+                    <li><a href="politicas de la empresa y cookies.html">Cookies</a></li>
+                </ul>
+            </nav>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Buscar...">
+                <button onclick="toggleSearch(event)"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section id="products" class="product-container">
+            <div class="product-box">
+                <img src="hoddiecorazon.png" alt="suderacorazon" class="product-image fade" id="product-image-1">
+                <div class="product-info">
+                    <h3>Sudadera logo corazón rojo</h3>
+                    <p>Composición: 80% algodón, 20% poliéster</p>
+                    <p>Textura: Suave y cómoda</p>
+                    <p>Color: Negra con logo y estampado</p>
+                    <p class="price">$40.00</p>
+                    <a class="add-to-cart" onclick="addToCart('Sudadera Mujer', 40.00, 'hoddiecorazon.png')">Añadir al carrito</a>
+                </div>
+            </div>
+            <div class="product-box">
+                <img src="sudaderacorazon.png" alt="sudaderaLove" class="product-image fade" id="product-image-2">
+                <div class="product-info">
+                    <h3>Sudadera logo corazón blanco</h3>
+                    <p>Composición: 80% algodón, 20% poliéster</p>
+                    <p>Textura: Suave y cómoda</p>
+                    <p>Color: Negra con logo y estampado</p>
+                    <p class="price">$42.00</p>
+                    <a class="add-to-cart" onclick="addToCart('Sudadera Amor', 42.00, 'hoddielove.png')">Añadir al carrito</a>
+                </div>
+            </div>
+            <div class="product-box">
+                <img src="hoddielogo.png" alt="sudaderaOSO" class="product-image fade" id="product-image-3">
+                <div class="product-info">
+                    <h3>Sudadera con logo de empresa</h3>
+                    <p>Composición: 80% algodón, 20% poliéster</p>
+                    <p>Textura: Suave y cómoda</p>
+                    <p>Color: Negra con logo y estampado</p>
+                    <p class="price">$45.00</p>
+                    <a class="add-to-cart" onclick="addToCart('Sudadera Oso', 45.00, 'hoddieOSO.png')">Añadir al carrito</a>
+                </div>
+            </div>
+            <div class="product-box">
+                <img src="sudaderalogo.png" alt="playeraMorada" class="product-image fade" id="product-image-4">
+                <div class="product-info">
+                    <h3>Sudadera sin gorro</h3>
+                    <p>Composición: 100% algodón</p>
+                    <p>Textura: Suave y fresca</p>
+                    <p>Color: Negra con logo</p>
+                    <p class="price">$25.00</p>
+                    <a class="add-to-cart" onclick="addToCart('Playera Morada', 25.00, 'playeramorada.png')">Añadir al carrito</a>
+                </div>
+            </div>
+            <div class="product-box">
+                <img src="playeraoversizecorazon.png" alt="playeraNegra" class="product-image fade" id="product-image-5">
+                <div class="product-info">
+                    <h3>Playera Negra con logo de empresa</h3>
+                    <p>Composición: 100% algodón</p>
+                    <p>Textura: Suave y cómoda</p>
+                    <p>Color: Negro clásico con logo blanco</p>
+                    <p class="price">$20.00</p>
+                    <a class="add-to-cart" onclick="addToCart('Playera Negra', 20.00, 'playeranegra.png')">Añadir al carrito</a>
+                </div>
+            </div>
+            <div class="product-box">
+                <img src="playerahombrecorazon.png" alt="playeraRosa" class="product-image fade" id="product-image-6">
+                <div class="product-info">
+                    <h3>Playera negra con corazón blanco</h3>
+                    <p>Composición: 100% algodón</p>
+                    <p>Textura: Suave y cómoda</p>
+                    <p>Color: Negro con logo blanco</p>
+                    <p class="price">$22.00</p>
+                    <a class="add-to-cart" onclick="addToCart('Playera Rosa', 22.00, 'playerarosa.png')">Añadir al carrito</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="popup" class="popup">
+        <p>Producto añadido al carrito</p>
+    </div>
+    <script>
+        function toggleSearch(event) {
+            event.stopPropagation();
+            const searchInput = document.getElementById('search');
+            if (searchInput.style.display === 'block') {
+                searchInput.style.display = 'none';
+            } else {
+                searchInput.style.display = 'block';
+                searchInput.focus();
+            }
+        }
+
+        function closeSearch(event) {
+            const searchInput = document.getElementById('search');
+            if (event.target !== searchInput) {
+                searchInput.style.display = 'none';
+            }
+        }
+
+        function toggleCart(event) {
+            event.stopPropagation();
+            const cartDropdown = document.querySelector('.cart-dropdown');
+            cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function addToCart(productName, productPrice, productImage) {
+            const cartItems = document.getElementById('cart-items');
+            const newItem = document.createElement('li');
+            newItem.className = 'cart-item';
+            newItem.innerHTML = `
+                <img src="${productImage}" alt="${productName}">
+                <span>${productName}</span>
+                <span>$${productPrice.toFixed(2)}</span>
+            `;
+            cartItems.appendChild(newItem);
+
+            const totalPriceElement = document.getElementById('total-price');
+            const currentTotal = parseFloat(totalPriceElement.textContent.replace('Total: $', ''));
+            const newTotal = currentTotal + productPrice;
+            totalPriceElement.textContent = `Total: $${newTotal.toFixed(2)}`;
+
+            const checkoutButton = document.getElementById('checkout-button');
+            checkoutButton.style.display = 'block';
+
+            showPopup();
+        }
+
+        function showPopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000);
+        }
+
+        function checkout() {
+            alert('Procediendo al checkout');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = [
+                ['hoddiecorazon.png', 'sudaderaatrasamor.png'],
+                ['sudaderacorazon.png', 'singorrodetrasamor.png'],
+                ['hoddielogo.png', 'sudaderaatrasamor.png'],
+                ['sudaderalogo.png', 'singorrodetrasamor.png'],
+                ['playeraoversizecorazon.png', 'playeraoversizelogo.png'],
+                ['playerahombrecorazon.png', 'playerahombrelogo.png']
+            ];
+
+            images.forEach((imageSet, index) => {
+                let currentIndex = 0;
+                const productImage = document.getElementById(`product-image-${index + 1}`);
+
+                setInterval(() => {
+                    productImage.classList.remove('fade-in');
+                    productImage.classList.add('fade');
+
+                    setTimeout(() => {
+                        currentIndex = (currentIndex + 1) % imageSet.length;
+                        productImage.src = imageSet[currentIndex];
+                        productImage.classList.remove('fade');
+                        productImage.classList.add('fade-in');
+                    }, 1000);
+                }, 3000);
+            });
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</body>
+</html>

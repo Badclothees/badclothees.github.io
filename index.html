@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda</title>
+    <style>
+     body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: white;
+            padding: 10px;
+            border: none;
+            width: 99%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            flex-grow: 1;
+            text-align: center;
+            margin-left: 120px; 
+        }
+
+        .logo img {
+            max-height: 70px; /* Ajusta el tamaño según sea necesario */
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            position: relative;
+            margin-right: 20px;
+            border: 0px solid #ccc;
+            border-radius: 0px;
+        }
+
+        nav ul li a {
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            font-size: 18px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #e6f7ff;
+        }
+
+        nav ul li .dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            list-style-type: none;
+            padding: 10px;
+            border: 0px solid #ccc;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        nav ul li:hover .dropdown {
+            display: block;
+        }
+
+        nav ul li .dropdown li {
+            margin-bottom: 10px;
+        }
+
+        nav ul li .dropdown li a {
+            font-size: 18px;
+        }
+
+        nav ul li .dropdown li:last-child {
+            margin-bottom: 0;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .search-container input {
+            padding: 5px;
+            display: none;
+            position: absolute;
+            right: 0;
+        }
+
+        .search-container button {
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .search-container button .fa-search {
+            font-size: 20px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .popup p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .product-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px auto;
+            width: 90%;
+	    margin-top: 80px;
+        }
+
+        .product-box {
+            background-color: #EEECF0;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            height: 300px;
+            cursor: pointer;
+            border: 0px solid #ccc;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .product-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .product-box:hover {
+            background-color: #ddd;
+        }
+
+        .scrolling-text-container {
+            background-color: transparent;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .scrolling-text {
+            white-space: nowrap;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .scrolling-text span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: scroll-text 20s linear infinite;
+            animation-delay: 5s;
+        }
+
+        @keyframes scroll-text {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .cart-container {
+            position: relative;
+            margin-left: 20px;
+	    margin-top: 10px;
+        }
+
+        .cart-icon {
+            cursor: pointer;
+            font-size: 24px;
+            border: none;
+        }
+
+        .cart-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            z-index: 1000;
+            width: 200px;
+        }
+
+        .cart-dropdown ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cart-dropdown ul li {
+            margin-bottom: 10px;
+        }
+
+        .cart-dropdown ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .cart-dropdown .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-dropdown .total-price {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .cart-dropdown .checkout-button {
+            display: none; 
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body onclick="closeSearch(event)">
+    <header>
+        <div class="header-container">
+            <nav>
+                <ul>
+                    <li><a href="#">Mujer</a>
+                        <ul class="dropdown">
+                            <li><a href="sudaderas y playeras.html">Sudaderas y Playeras</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Hombre</a>
+                        <ul class="dropdown">
+                            <li><a href="sudaderas y playeras.html">Sudaderas y Playeras</a></li>
+                        </ul>
+                    </li>
+                    <li class="cart-container">
+                        <i class="fa fa-shopping-cart cart-icon" onclick="toggleCart(event)"></i>
+                        <div class="cart-dropdown">
+                            <ul id="cart-items">
+                                <!-- Items del carrito -->
+                            </ul>
+                            <div class="total-price" id="total-price">Total: $0.00</div>
+                            <button class="checkout-button" id="checkout-button" onclick="checkout()">Checkout</button>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logo">
+	     <a href="index.html">
+                <img src="logo.png" alt="Logo de la tienda">
+	     </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="politicas de la empresa y cookies.html">Políticas de la Empresa</a></li>
+                    <li><a href="politicas de la empresa y cookies.html">Cookies</a></li>
+                </ul>
+            </nav>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Buscar...">
+                <button onclick="toggleSearch(event)"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+        <div class="scrolling-text-container">
+            <div class="scrolling-text">
+                <span>¡Siente la comodidad y el estilo con nuestras sudaderas!, ¿Buscas una sudadera perfecta para cualquier ocasión? ¡No busques más! En nuestra tienda online encontrarás una amplia variedad de sudaderas para hombres y mujeres con diseños únicos y de alta calidad.</span>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="popup-cookies" class="popup">
+            <p>Este sitio usa cookies para mejorar la experiencia del usuario.</p>
+            <button onclick="acceptCookies()">Aceptar</button>
+        </div>
+     <section id="products" class="product-container">
+ 	   <div class="product-box">
+  	      <a href="sudaderas y playeras.html">
+   	         <img src="fondo 1.png" alt="Sudaderas Mujer">
+   	     </a>
+  	  </div>
+	</section>
+     <section id="products" class="product-container">
+            <div class="product-box">
+                <a href="sudaderas y playeras.html">
+   	         <img src="fondo 2.png" alt="Sudaderas Mujer">
+   	     </a>
+            </div>
+        </section>
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!localStorage.getItem("cookiesAccepted")) {
+                document.getElementById("popup-cookies").style.display = "block";
+            }
+        });
+
+        function acceptCookies() {
+            localStorage.setItem("cookiesAccepted", true);
+            document.getElementById("popup-cookies").style.display = "none";
+        }
+
+        function toggleSearch(event) {
+            event.stopPropagation();
+            const searchInput = document.getElementById("search");
+            if (searchInput.style.display === "none" || searchInput.style.display === "") {
+                searchInput.style.display = "block";
+                searchInput.focus();
+            } else {
+                searchInput.style.display = "none";
+            }
+        }
+
+        function closeSearch(event) {
+            if (!event.target.closest('.search-container')) {
+                document.getElementById("search").style.display = "none";
+            }
+        }
+
+        function searchProduct() {
+            const query = document.getElementById("search").value.toLowerCase();
+            const products = [
+                { name: "sudaderas mujer", url: "#" },
+                { name: "playeras mujer", url: "#" },
+                { name: "sudaderas hombre", url: "#" },
+                { name: "playeras hombre", url: "#" }
+            ];
+            const result = products.find(product => product.name.toLowerCase().includes(query));
+            if (result) {
+                window.location.href = result.url;
+            } else {
+                alert("Producto no encontrado");
+            }
+        }
+
+        function toggleCart(event) {
+            event.stopPropagation();
+            const cartDropdown = document.querySelector('.cart-dropdown');
+            if (cartDropdown.style.display === "none" || cartDropdown.style.display === "") {
+                cartDropdown.style.display = "block";
+            } else {
+                cartDropdown.style.display = "none";
+            }
+        }
+
+        function addToCart(productName, price) {
+            const cartItems = document.getElementById("cart-items");
+            const newItem = document.createElement("li");
+            newItem.textContent = `${productName} - $${price.toFixed(2)}`;
+            cartItems.appendChild(newItem);
+            updateTotalPrice(price);
+            toggleCart({ stopPropagation: () => {} });
+        }
+
+        function updateTotalPrice(price) {
+            const totalPriceElement = document.getElementById("total-price");
+            let currentTotal = parseFloat(totalPriceElement.textContent.replace("Total: $", ""));
+            currentTotal += price;
+            totalPriceElement.textContent = `Total: $${currentTotal.toFixed(2)}`;
+
+            const checkoutButton = document.getElementById("checkout-button");
+            if (currentTotal > 0) {
+                checkoutButton.style.display = "block";
+            }
+        }
+
+        function checkout() {
+            alert("Procediendo al checkout");
+        }
+
+        document.addEventListener('click', function(event) {
+            const cartDropdown = document.querySelector('.cart-dropdown');
+            if (!event.target.closest('.cart-container')) {
+                cartDropdown.style.display = 'none';
+            }
+        });
+    </script>
+    <!-- Incluye Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+</html>
